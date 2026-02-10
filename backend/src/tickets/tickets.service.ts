@@ -113,14 +113,13 @@ export class TicketsService {
     const [data, total] = await qb.getManyAndCount();
 
     return {
-      data,
-      meta: {
-        total,
-        page,
-        limit,
-        totalPages: Math.ceil(total / limit),
-      },
-    };
+  items: data,
+  total: total,
+  page: page,
+  limit: limit,
+  totalPages: Math.ceil(total / limit),
+};
+    
   }
 
   async update(
