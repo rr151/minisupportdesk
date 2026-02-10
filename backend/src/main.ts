@@ -8,6 +8,13 @@ dotenv.config();
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   
+  app.enableCors({
+    origin: 'http://localhost:4200', // URL de votre frontend
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  });
+  
   app.useGlobalPipes(new ValidationPipe({
     whitelist: true,
     forbidNonWhitelisted: true,

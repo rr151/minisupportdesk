@@ -8,7 +8,7 @@
 docker-compose up -d 
 
 ## Charger les données tests et les comptes par défaut
-2. docker exec -it backend-api-1 npx ts-node src/seed.ts
+2. docker exec -it minisupport-api-1 npx ts-node src/seed.ts
 
 ## Compte de test
 

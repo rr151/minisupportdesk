@@ -34,8 +34,11 @@ services:
     command: npm start
     volumes:
       - ./frontend:/usr/src/app
+      - /usr/src/app/node_modules
     depends_on:
       - api
-  
+    environment:
+      - NODE_ENV=development
+
 volumes:
   db-data:
