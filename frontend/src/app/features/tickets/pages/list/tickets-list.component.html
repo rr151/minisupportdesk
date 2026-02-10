@@ -1,0 +1,130 @@
+<section class="page">
+  <header class="page-header">
+    <div>
+      <h1>Tickets</h1>
+      <p>Suivi complet des demandes clients, avec filtres rapides.</p>
+    </div>
+    <button class="primary">Nouveau ticket</button>
+  </header>
+
+  <div class="filters">
+    <label class="search">
+      <span>Recherche</span>
+      <input
+        type="search"
+        placeholder="Rechercher par titre, description, ID"
+        [ngModel]="searchTerm()"
+        (ngModelChange)="searchTerm.set($event); page.set(1); load()"
+      />
+    </label>
+
+    <label>
+      <span>Status</span>
+      <select
+        [ngModel]="statusFilter()"
+        (ngModelChange)="statusFilter.set($event); page.set(1); load()"
+      >
+        <option value="ALL">Tous</option>
+        <option value="open">Ouvert</option>
+        <option value="in_progress">En cours</option>
+        <option value="resolved">Resolus</option>
+      </select>
+    </label>
+
+    <label>
+      <span>Priorite</span>
+      <select
+        [ngModel]="priorityFilter()"
+        (ngModelChange)="priorityFilter.set($event); page.set(1); load()"
+      >
+        <option value="ALL">Toutes</option>
+        <option value="low">Basse</option>
+        <option value="medium">Moyenne</option>
+        <option value="high">Haute</option>
+      </select>
+    </label>
+
+    <label>
+      <span>Par page</span>
+      <select
+        [ngModel]="pageSize()"
+        (ngModelChange)="onPageSizeChange($event)"
+      >
+        <option [ngValue]="6">6</option>
+        <option [ngValue]="10">10</option>
+        <option [ngValue]="12">12</option>
+      </select>
+    </label>
+
+    <button class="ghost" type="button" (click)="clearFilters()">Reset</button>
+  </div>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-value">{{ total() }}</div>
+      <div class="stat-label">Tickets trouves</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">{{ totalPages() }}</div>
+      <div class="stat-label">Pages</div>
+    </div>
+  </div>
+
+  <ng-container *ngIf="tickets$ | async as tickets">
+    <div class="loading" *ngIf="loading$ | async">Chargement...</div>
+
+    <div class="list" *ngIf="tickets.length; else empty">
+      <div class="ticket" *ngFor="let ticket of tickets">
+        <div class="ticket-head">
+          <div>
+            <div class="ticket-id">#{{ ticket.id }}</div>
+            <h3>{{ ticket.title }}</h3>
+          </div>
+          <span
+            class="badge"
+            [class.open]="ticket.status === 'open'"
+            [class.progress]="ticket.status === 'in_progress'"
+            [class.closed]="ticket.status === 'resolved'"
+          >
+            {{ ticket.status }}
+          </span>
+        </div>
+        <p>{{ ticket.description }}</p>
+        <div class="ticket-meta">
+          <span>Priorite: {{ ticket.priority }}</span>
+          <span>Creation: {{ ticket.createdAt | date: 'dd/MM/yyyy' }}</span>
+          <span>Maj: {{ ticket.updatedAt | date: 'dd/MM/yyyy' }}</span>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-template #empty>
+    <div class="empty">Aucun ticket pour ces filtres.</div>
+  </ng-template>
+
+  <div class="pagination">
+    <button class="ghost" type="button" (click)="previousPage()" [disabled]="page() === 1">
+      Precedent
+    </button>
+    <div class="pages">
+      <button
+        class="page-btn"
+        *ngFor="let p of pages()"
+        type="button"
+        [class.active]="page() === p"
+        (click)="setPage(p)"
+      >
+        {{ p }}
+      </button>
+    </div>
+    <button
+      class="ghost"
+      type="button"
+      (click)="nextPage()"
+      [disabled]="page() === totalPages()"
+    >
+      Suivant
+    </button>
+  </div>
+</section>

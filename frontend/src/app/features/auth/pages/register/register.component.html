@@ -1,0 +1,42 @@
+<div class="page">
+  <div class="grid"></div>
+  <div class="card">
+    <header class="header">
+      <div class="logo">TicketFlow</div>
+      <h1>Creer un compte</h1>
+      <p>Choisis ton role et commence a gerer les tickets.</p>
+    </header>
+
+    <form [formGroup]="form" (ngSubmit)="submit()" class="form">
+      <label class="field">
+        <span>Email</span>
+        <input type="email" formControlName="email" placeholder="email@exemple.com" />
+      </label>
+
+      <label class="field">
+        <span>Mot de passe</span>
+        <input type="password" formControlName="password" placeholder="minimum 6 caracteres" />
+      </label>
+
+      <label class="field">
+        <span>Role</span>
+        <select formControlName="role">
+          <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
+        </select>
+      </label>
+
+      <button class="btn" type="submit" [disabled]="form.invalid || submitting()">
+        Creer le compte
+      </button>
+
+      <div class="helper">
+        Deja un compte ? <a routerLink="/auth/login">Se connecter</a>
+      </div>
+    </form>
+
+    <div class="payload">
+      <div class="payload-title">Payload register</div>
+      <pre ngNonBindable></pre>
+    </div>
+  </div>
+</div>
