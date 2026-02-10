@@ -5,11 +5,15 @@
 
 ## Installation & Lancement
 1. Depuis le dossier racine `minisupport/` :
-docker-compose up -d 
+```bash
+docker-compose up -d
+```
 
 ## Charger les données tests et les comptes par défaut
-2. docker exec -it minisupport-api-1 npx ts-node src/seed.ts
-
+2. 
+```bash
+docker exec -it minisupport-api-1 npx ts-node src/seed.ts
+```
 ## Compte de test
 
 | Rôle     | Email                                         | Mot de passe |
@@ -31,4 +35,12 @@ Compromis : certaines validations et logs sont basiques pour respecter les déla
 ## Swagger / API Documentation
 http://localhost:3000/api
 
-##
+## Améliorations possibles avec plus de temps
+
+- Ajouter de **vrais tests unitaires et d’intégration** (services et controllers).
+- Mettre en place des **migrations TypeORM** au lieu de `synchronize`.
+- Améliorer la **recherche** avec PostgreSQL full-text search ou un moteur dédié.
+- Ajouter une **gestion plus fine des permissions** (ex: transitions de statut autorisées).
+- Mettre en place une **gestion des erreurs plus détaillée** avec codes métiers.
+- Dockeriser également le **frontend avec Nginx**.
+- Ajouter des **commentaires en temps réel** (WebSocket) pour aller plus loin.
